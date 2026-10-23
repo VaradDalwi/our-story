@@ -1,5 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
+import confetti from "canvas-confetti";
 import Page from "./Page";
 import { storyPages } from "../data/story";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -13,6 +14,47 @@ const FlipBook = HTMLFlipBook as any;
 type FlipBookInstance = any;
 
 
+// Cover + story pages + "Forever" page come before the birthday page
+const BIRTHDAY_PAGE = storyPages.length + 2;
+
+
+// Party poppers from both bottom corners plus random bursts over the whole screen
+const celebrate = () => {
+
+    const end = Date.now() + 3000;
+
+    const colors = ["#D4AF37","#ff4d6d","#ffffff","#ff99ac","#ffd166"];
+
+    const frame = () => {
+
+        confetti({ particleCount: 6, angle: 60, spread: 70, startVelocity: 70, origin: { x: 0, y: 1 }, colors });
+        confetti({ particleCount: 6, angle: 120, spread: 70, startVelocity: 70, origin: { x: 1, y: 1 }, colors });
+
+        if(Math.random() < 0.15){
+
+            confetti({
+                particleCount: 60,
+                spread: 360,
+                startVelocity: 30,
+                origin: { x: Math.random(), y: Math.random() * 0.6 },
+                colors
+            });
+
+        }
+
+        if(Date.now() < end){
+
+            requestAnimationFrame(frame);
+
+        }
+
+    };
+
+    frame();
+
+};
+
+
 export default function Book() {
 
 
@@ -21,6 +63,38 @@ export default function Book() {
 
 
     const [,setCurrentPage] = useState(0);
+
+    const confettiTimer = useRef<number | undefined>(undefined);
+
+
+    useEffect(()=>{
+
+        return () => clearTimeout(confettiTimer.current);
+
+    },[]);
+
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleFlip = (e:any) => {
+
+        setCurrentPage(e.data);
+
+        clearTimeout(confettiTimer.current);
+
+        // In two-page (landscape) view the birthday page is the right half of the spread
+        const landscape = bookRef.current?.pageFlip().getOrientation() === "landscape";
+
+        const onBirthdayPage =
+            e.data === BIRTHDAY_PAGE ||
+            (landscape && e.data + 1 === BIRTHDAY_PAGE);
+
+        if(onBirthdayPage){
+
+            confettiTimer.current = window.setTimeout(celebrate,2000);
+
+        }
+
+    };
 
 
 
@@ -92,11 +166,7 @@ export default function Book() {
 
             useMouseEvents={false}
 
-            onFlip={(e:any)=>{
-
-                setCurrentPage(e.data);
-
-            }}
+            onFlip={handleFlip}
 
         >
 
@@ -316,6 +386,74 @@ by your husband
 
 
         </div>
+
+        </div>
+
+
+
+
+        {/* BIRTHDAY PAGE */}
+
+        <div className="
+        demoPage
+        relative
+        w-full
+        h-full
+        overflow-hidden
+        ">
+
+
+        <img
+
+        src="photos/end.jpg"
+
+        className="
+        absolute
+        inset-0
+        w-full
+        h-full
+        object-cover
+        "
+
+        />
+
+
+        <div className="
+        absolute
+        inset-0
+        bg-black/30
+        ">
+        </div>
+
+
+        <div className="
+        relative
+        z-10
+        h-full
+        flex
+        items-center
+        justify-center
+        text-center
+        px-6
+        ">
+
+        <h1 className="
+        text-7xl
+        font-bold
+        font-serif
+        text-white
+        leading-tight
+        drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]
+        ">
+
+        Happy
+        <br/>
+        Birthday
+
+        </h1>
+
+        </div>
+
 
         </div>
 
