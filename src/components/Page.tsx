@@ -23,7 +23,7 @@ h-full
 bg-[#fff8ee]
 rounded-xl
 shadow-2xl
-p-8
+p-[6.4cqw]
 flex
 flex-col
 items-center
@@ -37,12 +37,12 @@ text-center
 src={image}
 
 className="
-w-72
-h-72
+w-[57.6cqw]
+h-[57.6cqw]
 object-cover
 rounded-lg
 shadow-lg
-mb-8
+mb-[6.4cqw]
 "
 
 />
@@ -53,9 +53,9 @@ initial={{opacity:0,y:20}}
 animate={{opacity:1,y:0}}
 
 className="
-text-4xl
+text-[length:7.2cqw]
 text-[#8b5e3c]
-mb-5
+mb-[4cqw]
 font-serif
 "
 
@@ -68,7 +68,7 @@ font-serif
 
 
 <p className="
-text-xl
+text-[length:4cqw]
 leading-relaxed
 text-gray-700
 max-w-xl

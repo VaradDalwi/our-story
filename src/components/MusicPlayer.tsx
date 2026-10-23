@@ -134,13 +134,18 @@ export default function MusicPlayer(){
 
         className="
         fixed
-        top-5
-        right-5
+        bottom-4
+        left-4
+        md:bottom-auto
+        md:left-auto
+        md:top-5
+        md:right-5
         z-50
         bg-[#D4AF37]
         text-white
         rounded-full
-        p-3
+        p-2.5
+        md:p-3
         shadow-xl
         hover:scale-110
         transition
@@ -148,7 +153,7 @@ export default function MusicPlayer(){
 
         >
 
-        {muted ? <VolumeX size={28}/> : <Volume2 size={28}/>}
+        {muted ? <VolumeX className="w-5 h-5 md:w-7 md:h-7"/> : <Volume2 className="w-5 h-5 md:w-7 md:h-7"/>}
 
         </button>
 

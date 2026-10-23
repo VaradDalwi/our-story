@@ -18,6 +18,36 @@ type FlipBookInstance = any;
 const BIRTHDAY_PAGE = storyPages.length + 2;
 
 
+// Pages are 5:7. The flip library shows one page when the book is narrower than 2 x MIN_PAGE_WIDTH.
+const PAGE_RATIO = 700 / 500;
+const MIN_PAGE_WIDTH = 300;
+const MAX_PAGE_WIDTH = 500;
+
+
+// Widest book that fits the screen: two pages side by side if there is room, otherwise one
+const calcBookWidth = () => {
+
+    const desktop = window.innerWidth >= 768;
+
+    // Desktop keeps room for the side arrows, mobile keeps room for the arrows below
+    const availWidth = window.innerWidth - (desktop ? 220 : 32);
+    const availHeight = window.innerHeight - (desktop ? 48 : 130);
+
+    const maxPage = Math.min(MAX_PAGE_WIDTH, availHeight / PAGE_RATIO);
+
+    const twoPageWidth = Math.floor(Math.min(maxPage, availWidth / 2));
+
+    if(twoPageWidth >= MIN_PAGE_WIDTH){
+
+        return twoPageWidth * 2;
+
+    }
+
+    return Math.floor(Math.min(maxPage, availWidth));
+
+};
+
+
 // Party poppers from both bottom corners plus random bursts over the whole screen
 const celebrate = () => {
 
@@ -72,6 +102,28 @@ export default function Book() {
         return () => clearTimeout(confettiTimer.current);
 
     },[]);
+
+
+    const [bookWidth,setBookWidth] = useState(calcBookWidth);
+
+
+    useEffect(()=>{
+
+        const onResize = () => setBookWidth(calcBookWidth());
+
+        window.addEventListener("resize",onResize);
+
+        return () => window.removeEventListener("resize",onResize);
+
+    },[]);
+
+
+    // The library measures on its own resize handler, which runs before React applies the new width
+    useEffect(()=>{
+
+        bookRef.current?.pageFlip()?.update();
+
+    },[bookWidth]);
 
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,25 +182,30 @@ export default function Book() {
         <div className="
         relative
         flex
+        flex-col
         items-center
-        justify-center
+        gap-5
+        md:block
         ">
+
+
+        <div style={{ width: bookWidth }}>
 
 
         <FlipBook
 
             ref={bookRef}
 
-            width={500}
-            height={700}
+            width={MAX_PAGE_WIDTH}
+            height={MAX_PAGE_WIDTH * PAGE_RATIO}
 
-            size="fixed"
+            size="stretch"
 
-            minWidth={315}
-            maxWidth={600}
+            minWidth={MIN_PAGE_WIDTH}
+            maxWidth={MAX_PAGE_WIDTH}
 
-            minHeight={400}
-            maxHeight={900}
+            minHeight={MIN_PAGE_WIDTH * PAGE_RATIO}
+            maxHeight={MAX_PAGE_WIDTH * PAGE_RATIO}
 
             drawShadow={true}
 
@@ -222,14 +279,14 @@ items-center
 justify-center
 text-center
 text-white
-px-8
+px-[6.4cqw]
 font-serif
 ">
 
 
 <div className="
-text-6xl
-mb-8
+text-[length:12cqw]
+mb-[6.4cqw]
 ">
 
 ❤️
@@ -239,8 +296,8 @@ mb-8
 
 
 <h1 className="
-text-5xl
-mb-6
+text-[length:9.6cqw]
+mb-[4.8cqw]
 font-bold
 ">
 
@@ -251,7 +308,7 @@ Our Story
 
 
 <p className="
-text-2xl
+text-[length:4.8cqw]
 italic
 leading-relaxed
 ">
@@ -272,8 +329,8 @@ my entire world.
 
 
 <p className="
-mt-10
-text-xl
+mt-[8cqw]
+text-[length:4cqw]
 ">
 
 Happy Birthday My Love ❤️
@@ -283,8 +340,8 @@ Happy Birthday My Love ❤️
 
 
 <p className="
-mt-5
-text-lg
+mt-[4cqw]
+text-[length:3.6cqw]
 opacity-90
 ">
 
@@ -349,16 +406,16 @@ by your husband
         flex-col
         items-center
         text-center
-        p-10
+        p-[8cqw]
         ">
 
 
-        <h1 className="text-5xl mb-10">
+        <h1 className="text-[length:9.6cqw] mb-[8cqw]">
             Forever ❤️
         </h1>
 
 
-        <p className="text-2xl italic">
+        <p className="text-[length:4.8cqw] italic">
 
         If I had another life...
 
@@ -374,7 +431,7 @@ by your husband
         src="photos/back.jpg"
 
         className="
-        mt-8
+        mt-[6.4cqw]
         flex-1
         min-h-0
         w-full
@@ -434,11 +491,11 @@ by your husband
         items-center
         justify-center
         text-center
-        px-6
+        px-[4.8cqw]
         ">
 
         <h1 className="
-        text-7xl
+        text-[length:14.4cqw]
         font-bold
         font-serif
         text-white
@@ -455,6 +512,21 @@ by your husband
         </div>
 
 
+        <span className="
+        absolute
+        bottom-[3cqw]
+        right-[4cqw]
+        z-10
+        text-[length:3.2cqw]
+        text-white/80
+        font-serif
+        ">
+
+        ~V2
+
+        </span>
+
+
         </div>
 
 
@@ -462,6 +534,18 @@ by your husband
         </FlipBook>
 
 
+        </div>
+
+
+
+
+        {/* BUTTONS - in a row below the book on mobile, beside the book on desktop */}
+
+        <div className="
+        flex
+        gap-10
+        md:contents
+        ">
 
 
         {/* PREVIOUS BUTTON */}
@@ -471,9 +555,9 @@ by your husband
         onClick={previousPage}
 
         className="
-        absolute
-        left-[-80px]
-        bottom-5
+        md:absolute
+        md:left-[-80px]
+        md:bottom-5
         bg-[#D4AF37]
         text-white
         rounded-full
@@ -500,9 +584,9 @@ by your husband
         onClick={nextPage}
 
         className="
-        absolute
-        right-[-80px]
-        bottom-5
+        md:absolute
+        md:right-[-80px]
+        md:bottom-5
         bg-[#D4AF37]
         text-white
         rounded-full
@@ -517,6 +601,9 @@ by your husband
         <ChevronRight size={35}/>
 
         </button>
+
+
+        </div>
 
 
 
