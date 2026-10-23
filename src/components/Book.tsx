@@ -488,18 +488,21 @@ by your husband
         z-10
         h-full
         flex
+        flex-col
         items-center
         justify-center
         text-center
         px-[4.8cqw]
+        pb-[6cqw]
         ">
 
         <h1 className="
-        text-[length:14.4cqw]
+        text-[length:12cqw]
         font-bold
         font-serif
         text-white
         leading-tight
+        mb-[5cqw]
         drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]
         ">
 
@@ -508,6 +511,25 @@ by your husband
         Birthday
 
         </h1>
+
+
+        <p className="
+        text-[length:max(11px,3.4cqw)]
+        italic
+        font-serif
+        text-white
+        leading-relaxed
+        bg-black/40
+        backdrop-blur-sm
+        rounded-lg
+        px-[4cqw]
+        py-[3cqw]
+        drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]
+        ">
+
+        “Since 2019, you have been my constant — my strength when I felt weak, my light in my darkest moments, and my biggest supporter in every step of my journey. Thank you for believing in me when I doubted myself, teaching me with patience, loving me unconditionally, and caring for me in ways words can never fully express. From being my partner in life to becoming my wife in July 2026, you have been my greatest blessing. I am forever grateful for you, my love.”
+
+        </p>
 
         </div>
 
