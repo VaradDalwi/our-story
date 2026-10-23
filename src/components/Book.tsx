@@ -116,7 +116,7 @@ rounded-lg
 
 <img
 
-src="/photos/cover.jpg"
+src="photos/cover.jpg"
 
 className="
 absolute
@@ -301,7 +301,7 @@ by your husband
 
         <img
 
-        src="/photos/back.jpg"
+        src="photos/back.jpg"
 
         className="
         mt-8
