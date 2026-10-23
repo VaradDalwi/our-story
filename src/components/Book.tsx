@@ -475,10 +475,29 @@ by your husband
         />
 
 
+        {/* Fades only at the top and bottom edges so the text is readable and the photo stays clear */}
+
         <div className="
         absolute
-        inset-0
-        bg-black/30
+        inset-x-0
+        top-0
+        h-[25%]
+        bg-gradient-to-b
+        from-black/60
+        to-transparent
+        ">
+        </div>
+
+
+        <div className="
+        absolute
+        inset-x-0
+        bottom-0
+        h-[50%]
+        bg-gradient-to-t
+        from-black/75
+        via-black/45
+        to-transparent
         ">
         </div>
 
@@ -490,25 +509,24 @@ by your husband
         flex
         flex-col
         items-center
-        justify-center
+        justify-between
         text-center
         px-[4.8cqw]
-        pb-[6cqw]
+        pt-[5cqw]
+        pb-[8cqw]
         ">
 
         <h1 className="
-        text-[length:12cqw]
+        text-[length:9cqw]
         font-bold
         font-serif
         text-white
         leading-tight
-        mb-[5cqw]
-        drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]
+        whitespace-nowrap
+        [text-shadow:0_2px_10px_rgba(0,0,0,0.9)]
         ">
 
-        Happy
-        <br/>
-        Birthday
+        Happy Birthday
 
         </h1>
 
@@ -519,12 +537,7 @@ by your husband
         font-serif
         text-white
         leading-relaxed
-        bg-black/40
-        backdrop-blur-sm
-        rounded-lg
-        px-[4cqw]
-        py-[3cqw]
-        drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]
+        [text-shadow:0_1px_4px_rgba(0,0,0,1),0_0_12px_rgba(0,0,0,0.8)]
         ">
 
         “Since 2019, you have been my constant — my strength when I felt weak, my light in my darkest moments, and my biggest supporter in every step of my journey. Thank you for believing in me when I doubted myself, teaching me with patience, loving me unconditionally, and caring for me in ways words can never fully express. From being my partner in life to becoming my wife in July 2026, you have been my greatest blessing. I am forever grateful for you, my love.”
