@@ -1,4 +1,5 @@
 import Book from "./components/Book";
+import MusicPlayer from "./components/MusicPlayer";
 
 
 function App(){
@@ -18,6 +19,8 @@ to-[#6b4035]
 
 
 <Book/>
+
+<MusicPlayer/>
 
 
 </div>
